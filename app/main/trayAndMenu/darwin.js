@@ -44,6 +44,7 @@ function setAppMenu() {
         },
         { role: 'fileMenu' },
         { role: 'windowMenu' },
+        // 鼠标快捷键
         { role: 'editMenu' },
     ])
     app.applicationMenu = appMenu

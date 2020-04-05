@@ -46,6 +46,7 @@ function App() {
     setControlText(text)
   }
 
+  // 增加右键菜单
   const handleContextMenu = e => {
     e.preventDefault()
     const menu = new Menu()

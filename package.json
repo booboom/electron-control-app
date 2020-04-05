@@ -1,0 +1,26 @@
+{
+  "name": "electron-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app/main/index.js",
+  "scripts": {
+    "start": "concurrently \"npm run start:render\" \"wait-on http://localhost:3000 && npm run start:main\"",
+    "start:main": "electron .",
+    "start:render": "cd app/renderer/src/main && npm start"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^5.1.0",
+    "electron": "^8.1.0",
+    "electron-rebuild": "^1.10.1",
+    "timer.js": "^1.0.4",
+    "wait-on": "^4.0.1"
+  },
+  "dependencies": {
+    "electron-is-dev": "^1.1.0",
+    "robotjs": "^0.6.0",
+    "vkey": "^1.0.1",
+    "ws": "^7.2.3"
+  }
+}

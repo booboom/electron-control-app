@@ -2,12 +2,27 @@ const { app } = require('electron')
 // 引入主进程监听事件
 const handleIPC = require('./ipc')
 // 引入主进程
-// const { create: createControlWindow } = require('./windows/control')
-const { create: createMainWindow } = require('./windows/main')
-// 主进程
-app.on('ready', () => {
-    createMainWindow()
-    // createControlWindow()
-    handleIPC()
-    require('./robot.js')()
-})
+const { create: createMainWindow, show: showMainWindow, close: closeMainWindow } = require('./windows/main')
+
+// 禁止多开
+const gotTheLock = app.requestSingleInstanceLock()
+if(!gotTheLock) {
+    app.quit()
+} else {
+    app.on('second-instance', () => {
+        showMainWindow()
+    })
+    // 主进程
+    app.on('ready', () => {
+        createMainWindow()
+        handleIPC()
+        require('./trayAndMenu/darwin')
+        require('./robot.js')()
+    })
+    app.on('before-quit', () => {
+        closeMainWindow()
+    })
+    app.on('activate', () => {
+        showMainWindow()
+    })
+}

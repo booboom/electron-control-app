@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useReducer } from 'react';
-import { ipcRenderer } from 'electron'
-// const { ipcRenderer } = window.require('electron')
+import { ipcRenderer, remote } from 'electron'
 // import logo from './logo.svg';
 import './peer-puppet.js'
 import './App.css';
+const { Menu, MenuItem } = remote
 
 // 主进程页面
 function App() {
@@ -33,6 +33,7 @@ function App() {
     ipcRenderer.send('control', remoteCode)
   }
 
+  // type 0 - 未连接  1 - 已控制  2 - 被控制
   const handleControlState = (e, name, type) => {
     let text =  ''
     if (type === 1) {
@@ -45,12 +46,22 @@ function App() {
     setControlText(text)
   }
 
+  const handleContextMenu = e => {
+    e.preventDefault()
+    const menu = new Menu()
+    menu.append(new MenuItem({
+      label: '复制',
+      role: 'copy'
+    }))
+    menu.popup()
+  }
+
   return (
     <div className="App">
       {
         controlText === '' ?
           <div>
-            <div>你的控制码{lcoalCode}</div>
+            <div>你的控制码 <span onContextMenu={(e) => handleContextMenu(e)}>{lcoalCode}</span> </div>
             <input type="text" value={remoteCode} onChange={e => setRemoteCode(e.target.value)} />
             <button onClick={() => startControl(remoteCode)}>确认</button>
           </div>

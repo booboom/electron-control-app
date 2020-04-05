@@ -4,8 +4,12 @@ renderer - 渲染进程
 websocketServer - 服务端
 
 ## 启动
-根目录`npm i` => websocketServer目录`npm i` => app/renderer/src/main目录`npm i`
-根目录下启动`npm start`
+1. 根目录`npm i` => websocketServer目录`npm i` => app/renderer/src/main目录`npm i`
+2. websocketServer目录下`node index.js`
+3. 根目录下启动`npm start`
+
+## 测试websocket
+http://websocket.org/echo.html
 
 ## 监听端口
 websocketServer/index.js

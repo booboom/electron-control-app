@@ -45,7 +45,7 @@ wss.on('connection', function connection(ws, request) {
     })
     ws.on('close', () => {
         code2ws.delete(code)
-        clearTimeout(wx._closeTimeout)
+        clearTimeout(ws._closeTimeout)
     })
     ws._closeTimeout = setTimeout(() => {
         ws.terminate()

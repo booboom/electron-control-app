@@ -26,6 +26,19 @@ async function getScreenStream() {
 
 // 响应控制端，创建answer   - 创建视频流
 const pc = new window.RTCPeerConnection({})
+pc.ondatachannel = e => {
+    console.log('datachannel', e)
+    e.channel.onmessage = e => {
+        let { type, data } = JSON.parse(e.data)
+        if(type === 'mouse') {
+            data.screen = {
+                width: window.screen.width,
+                height: window.screen.height,
+            }
+        }
+        ipcRenderer.send('robot', type, data)
+    }
+}
 
 pc.onicecandidate = function(e) {
     console.log('candidate', JSON.stringify(e.candidate))

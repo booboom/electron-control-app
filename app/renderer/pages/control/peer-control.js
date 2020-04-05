@@ -2,19 +2,15 @@ const EventEmitter = require('events')
 const peer = new EventEmitter()
 const { ipcRenderer } = require('electron')
 
-
-// TODO: 在控制控制端模拟傀儡端被控制
-// peer.on('robot', (type, data) => {
-//     if(type === 'mouse') {
-//         data.screen = {
-//             width: window.screen.width,
-//             height: window.screen.height,
-//         }
-//     }
-//     ipcRenderer.send('robot', type, data)
-// })
-
 const pc = new window.RTCPeerConnection({})
+const dc = pc.createDataChannel('robotchannel', { reliable: false })
+dc.onopen = function() {
+    peer.on('robot', (type, data) => {
+        dc.send(JSON.stringify({ type, data }))
+    })
+}
+dc.onmessage = event => { console.log('message', event) }
+dc.onerror = e => { console.error('error', e) }
 
 // candidate
 pc.onicecandidate = function(e) {

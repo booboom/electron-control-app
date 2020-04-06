@@ -12,7 +12,8 @@
   },
   "scripts": {
     "start": "BROWSER=none react-app-rewired start",
-    "build": "react-scripts build",
+    "build": "react-app-rewired build",
+    "postbuild": "node ./build.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -31,8 +32,10 @@
       "last 1 safari version"
     ]
   },
+  "homepage": "./",
   "devDependencies": {
     "customize-cra": "^0.9.1",
+    "fs-extra": "^9.0.0",
     "react-app-rewired": "^2.1.5"
   }
 }

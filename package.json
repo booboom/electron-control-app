@@ -6,13 +6,19 @@
   "scripts": {
     "start": "concurrently \"npm run start:render\" \"wait-on http://localhost:3000 && npm run start:main\"",
     "start:main": "electron .",
-    "start:render": "cd app/renderer/src/main && npm start"
+    "start:render": "cd app/renderer/src/main && npm start",
+    "build": "cd app/renderer/src/main && npm run build",
+    "pack:mac": "npm run build && electron-builder --mac",
+    "pack:win": "npm run build && electron-builder --win --ia32"
   },
   "author": "baomer",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0",
+    "cross-env": "^7.0.2",
     "electron": "^8.1.0",
+    "electron-builder": "^22.4.1",
+    "electron-builder-squirrel-windows": "^22.5.1",
     "electron-rebuild": "^1.10.1",
     "timer.js": "^1.0.4",
     "wait-on": "^4.0.1"
@@ -23,5 +29,63 @@
     "robotjs": "^0.6.0",
     "vkey": "^1.0.1",
     "ws": "^7.2.3"
+  },
+  "build": {
+    "appId": "com.geektime.mercurius",
+    "productName": "electron-test",
+    "files": "app",
+    "asar": true,
+    "extraFiles": [
+      "app/renderer/**/src"
+    ],
+    "directories": {
+      "buildResources": "resource",
+      "output": "release"
+    },
+    "copyright": "Copyright (c) 2020 baomer",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "resources/icon.icns"
+    },
+    "dmg": {
+      "background": "resources/background.png",
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 410,
+          "y": 180,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 180,
+          "type": "file"
+        }
+      ],
+      "iconSize": 128
+    },
+    "win": {
+      "icon": "resources/icon.ico",
+      "target": [
+        "aquirrel",
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "language": "2052",
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
+    "squirrelWindows": {
+      "iconUrl": "https://raw.githubusercontent.com/dengyaolong/geektime-electron/master/img/icon.ico"
+    }
   }
 }

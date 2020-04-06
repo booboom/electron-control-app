@@ -1,0 +1,45 @@
+directories:
+  output: release
+  buildResources: resource
+appId: com.geektime.mercurius
+productName: electron-test
+files:
+  - filter:
+      - app
+asar: true
+extraFiles:
+  - filter:
+      - app/renderer/**/src
+copyright: Copyright (c) 2020 baomer
+mac:
+  target:
+    - dmg
+    - zip
+  icon: resources/icon.icns
+dmg:
+  background: resources/background.png
+  window:
+    width: 540
+    height: 380
+  contents:
+    - x: 410
+      'y': 180
+      type: link
+      path: /Applications
+    - x: 130
+      'y': 180
+      type: file
+  iconSize: 128
+win:
+  icon: resources/icon.ico
+  target:
+    - aquirrel
+    - nsis
+nsis:
+  oneClick: false
+  language: '2052'
+  perMachine: true
+  allowToChangeInstallationDirectory: true
+squirrelWindows:
+  iconUrl: 'https://raw.githubusercontent.com/dengyaolong/geektime-electron/master/img/icon.ico'
+electronVersion: 8.2.0
